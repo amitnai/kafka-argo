@@ -28,10 +28,10 @@ kafka:
   environment:
     KAFKA_ZOOKEEPER_CONNECT: "zookeeper-0.zookeeper.kafka.svc.cluster.local:2181,zookeeper-1.zookeeper.kafka.svc.cluster.local:2181,zookeeper-2.zookeeper.kafka.svc.cluster.local:2181"
     KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
-    KAFKA_BROKER_ID: "$(BROKER_ID)"
+    KAFKA_BROKER_ID: "$(ORDINAL_INDEX)"
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
-
+    KAFKA_LISTENERS: "PLAINTEXT://:9092"
 
 # Zookeeper Configuration
 zookeeper:
