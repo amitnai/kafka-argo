@@ -67,7 +67,6 @@ metadata:
 spec:
   ports:
     - port: 8083
-  clusterIP: None  # Important for StatefulSets
   selector:
     app: kafka-connect
   type: {{ .Values.kafkaConnect.service.type }}
