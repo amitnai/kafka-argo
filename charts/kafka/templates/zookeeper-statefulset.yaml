@@ -32,7 +32,7 @@ spec:
               mountPath: /var/lib/zookeeper
   volumeClaimTemplates:
     - metadata:
-        name: zookeeper-pvc
+        name: zookeeper-persistent-storage
       spec:
         accessModes:
           - ReadWriteOnce
