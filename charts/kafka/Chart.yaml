@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kafka-cluster
+description: A Helm chart for deploying a Kafka cluster with Schema Registry, Kafka Connect, and UI.
+type: application
+version: 0.1.0
+appVersion: latest

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-connect
+  labels:
+    app: kafka-connect
+spec:
+  serviceName: "kafka-connect"
+  replicas: {{ .Values.kafkaConnect.replicaCount }}
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      containers:
+        - name: kafka-connect
+          image: "{{ .Values.kafkaConnect.image.repository }}:{{ .Values.kafkaConnect.image.tag }}"
+          imagePullPolicy: {{ .Values.kafkaConnect.image.pullPolicy }}
+          ports:
+            - containerPort: 8083
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafkaConnect.environment.CONNECT_BOOTSTRAP_SERVERS }}
+            - name: CONNECT_REST_ADVERTISED_LISTENER
+              value: {{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_LISTENER }}
+            - name: CONNECT_KEY_CONVERTER
+              value: {{ .Values.kafkaConnect.environment.CONNECT_KEY_CONVERTER }}
+            - name: CONNECT_VALUE_CONVERTER
+              value: {{ .Values.kafkaConnect.environment.CONNECT_VALUE_CONVERTER }}
+            - name: CONNECT_INTERNAL_KEY_CONVERTER
+              value: {{ .Values.kafkaConnect.environment.CONNECT_INTERNAL_KEY_CONVERTER }}
+            - name: CONNECT_INTERNAL_VALUE_CONVERTER
+              value: {{ .Values.kafkaConnect.environment.CONNECT_INTERNAL_VALUE_CONVERTER }}
+            - name: CONNECT_PLUGIN_PATH
+              value: {{ .Values.kafkaConnect.environment.CONNECT_PLUGIN_PATH }}
+            - name: CONNECT_GROUP_ID
+              value: {{ .Values.kafkaConnect.environment.CONNECT_GROUP_ID }}
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: {{ .Values.kafkaConnect.environment.CONNECT_CONFIG_STORAGE_TOPIC }}
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: {{ .Values.kafkaConnect.environment.CONNECT_OFFSET_STORAGE_TOPIC }}
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: {{ .Values.kafkaConnect.environment.CONNECT_STATUS_STORAGE_TOPIC }}
+          volumeMounts:
+            - name: kafka-connect-persistent-storage
+              mountPath: /var/lib/kafka-connect
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-connect-pvc
+      spec:
+        accessModes:
+          - {{ .Values.kafkaConnect.persistence.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.kafkaConnect.persistence.size }}
+        storageClassName: {{ .Values.kafkaConnect.persistence.storageClass }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect
+  namespace: kafka
+spec:
+  ports:
+    - port: 8083
+  clusterIP: None  # Important for StatefulSets
+  selector:
+    app: kafka-connect
+  type: {{ .Values.kafkaConnect.service.type }}

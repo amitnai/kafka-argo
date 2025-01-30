@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  serviceName: "zookeeper"
+  replicas: {{ .Values.zookeeper.replicaCount }}
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}"
+          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+          ports:
+            - containerPort: 2181
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: {{ .Values.zookeeper.environment.ZOOKEEPER_CLIENT_PORT }}
+            - name: ZOOKEEPER_TICK_TIME
+              value: {{ .Values.zookeeper.environment.ZOOKEEPER_TICK_TIME }}
+          volumeMounts:
+            - name: zookeeper-persistent-storage
+              mountPath: /var/lib/zookeeper
+  volumeClaimTemplates:
+    - metadata:
+        name: zookeeper-pvc
+      spec:
+        accessModes:
+          - {{ .Values.zookeeper.persistence.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.zookeeper.persistence.size }}
+        storageClassName: {{ .Values.zookeeper.persistence.storageClass }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: kafka
+spec:
+  ports:
+    - port: 2181
+  clusterIP: None  # Important for StatefulSets
+  selector:
+    app: zookeeper
+  type: {{ .Values.zookeeper.service.type }}

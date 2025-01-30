@@ -1,8 +1,145 @@
-replicaCount: 3
+namespace: kafka
 
+kafka:
+  replicaCount: 3  # Deploy 3 Kafka brokers
+
+  image:
+    repository: confluentinc/cp-kafka
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: LoadBalancer  # Expose Kafka brokers externally
+    port: 9092
+
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: kafka  # Ensure this matches your desired storage class name
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi"
+
+  environment:
+    KAFKA_ZOOKEEPER_CONNECT: "zookeeper-0.zookeeper.kafka.svc.cluster.local:2181,zookeeper-1.zookeeper.kafka.svc.cluster.local:2181,zookeeper-2.zookeeper.kafka.svc.cluster.local:2181"
+    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
+    KAFKA_BROKER_ID: "$(BROKER_ID)"
+    KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
+
+
+# Zookeeper Configuration
 zookeeper:
   enabled: true
-  replicaCount: 3
+  replicaCount: 3  # 3-node Zookeeper cluster
 
-service:
-  type: LoadBalancer
+  image:
+    repository: confluentinc/cp-zookeeper
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 2181
+
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: kafka
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"
+
+  environment:
+    ZOOKEEPER_CLIENT_PORT: "2181"
+    ZOOKEEPER_TICK_TIME: "2000"
+
+# Kafka Connect Configuration
+kafkaConnect:
+  enabled: true
+  replicaCount: 3  # Kafka Connect replicas
+  image:
+    repository: confluentinc/cp-kafka-connect
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi"
+  service:
+    type: LoadBalancer  # Expose Kafka Connect externally
+    port: 8083  # Kafka Connect REST API port
+
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: kafka
+
+  environment:
+    CONNECT_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
+    CONNECT_REST_ADVERTISED_LISTENER: "http://0.0.0.0:8083"
+    CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+    CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+    CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+    CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+    CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"  # For plugins
+    CONNECT_GROUP_ID: "connect-cluster"
+    CONNECT_CONFIG_STORAGE_TOPIC: "connect-configs"
+    CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
+    CONNECT_STATUS_STORAGE_TOPIC: "connect-status"
+
+schemaRegistry:
+  replicaCount: 1  # Keep Schema Registry as a single instance (non-scalable)
+
+  image:
+    repository: confluentinc/cp-schema-registry
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP  # Internal service for Schema Registry
+    port: 8081
+
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: kafka  # Ensure this matches your cluster's storage class
+
+  environment:
+    SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
+    SCHEMA_REGISTRY_LISTENER: "http://0.0.0.0:8081"
+    SCHEMA_REGISTRY_HOST_NAME: "schema-registry"
+    SCHEMA_REGISTRY_KAFKASTORE_TOPIC: "_schemas"
+
+
+# Kafka UI (e.g., Kafdrop or Kafka Manager)
+kafkaUI:
+  enabled: true
+  image:
+    repository: obsidiandynamics/kafdrop
+    tag: latest
+  service:
+    type: LoadBalancer  # Expose UI externally
+    port: 9000
+  environment:
+    KAFKA_BROKERCONNECT: "PLAINTEXT://kafka-0.kafka.kafka.svc.cluster.local:9092,kafka-1.kafka.kafka.svc.cluster.local:9092,kafka-2.kafka.kafka.svc.cluster.local:9092"
+
+# Persistent Storage Configuration
+persistence:
+  enabled: true
+  storageClass: kafka  # Ensure this matches your storage class name
+  accessMode: ReadWriteOnce
+
