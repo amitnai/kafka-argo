@@ -1,11 +1,13 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: kafka-ui
+  namespace: kafka
   labels:
     app: kafka-ui
 spec:
-  replicas: 1
+  serviceName: "kafka-ui"
+  replicas: 1  # Single instance for UI
   selector:
     matchLabels:
       app: kafka-ui
@@ -22,7 +24,20 @@ spec:
             - containerPort: 9000
           env:
             - name: KAFKA_BROKERCONNECT
-              value: {{ .Values.kafkaUI.environment.KAFKA_BROKERCONNECT }}
+              value: "{{ .Values.kafkaUI.environment.KAFKA_BROKERCONNECT }}"
+          volumeMounts:
+            - name: kafka-ui-storage
+              mountPath: /data  # Adjust if Kafka UI requires a specific path
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-ui-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi  # Adjust size as needed
+        storageClassName: {{ .Values.persistence.storageClass }}  # Uses your defined storage class
 
 ---
 apiVersion: v1
