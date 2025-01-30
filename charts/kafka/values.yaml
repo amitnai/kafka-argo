@@ -15,7 +15,9 @@ kafka:
   persistence:
     enabled: true
     size: 10Gi
-    storageClass: kafka  # Ensure this matches your desired storage class name
+    storageClass: kafka
+    accessModes:
+      - ReadWriteOnce  # Ensure this matches your desired storage class name
 
   resources:
     requests:
@@ -47,11 +49,11 @@ zookeeper:
     port: 2181
 
   persistence:
-  enabled: true
-  accessModes:
-    - ReadWriteOnce
-  size: 5Gi
-  storageClass: kafka  # Make sure this matches your storage class
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+    storageClass: kafka  # Make sure this matches your storage class
 
 
   resources:
@@ -86,11 +88,11 @@ kafkaConnect:
     port: 8083  # Kafka Connect REST API port
   
   persistence:
-  enabled: true
-  accessModes:
-    - ReadWriteOnce
-  size: 10Gi
-  storageClass: kafka  # Make sure this matches your storage class
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+    storageClass: kafka  # Make sure this matches your storage class
 
   environment:
     CONNECT_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
@@ -118,11 +120,11 @@ schemaRegistry:
     port: 8081
 
   persistence:
-  enabled: true
-  accessModes:
-    - ReadWriteOnce
-  size: 10Gi
-  storageClass: kafka  # Make sure this matches your storage class
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+    storageClass: kafka  # Make sure this matches your storage class
 
   environment:
     SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
@@ -144,9 +146,9 @@ kafkaUI:
     KAFKA_BROKERCONNECT: "PLAINTEXT://kafka-0.kafka.kafka.svc.cluster.local:9092,kafka-1.kafka.kafka.svc.cluster.local:9092,kafka-2.kafka.kafka.svc.cluster.local:9092"
 
 # Persistent Storage Configuration
-persistence:
-  enabled: true
-  accessModes:
-    - ReadWriteOnce
-  size: 5Gi
-  storageClass: kafka  # Make sure this matches your storage class
+  persistence:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+    storageClass: kafka  # Make sure this matches your storage class
