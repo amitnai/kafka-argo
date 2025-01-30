@@ -37,7 +37,7 @@ spec:
         resources:
           requests:
             storage: 5Gi  # Adjust size as needed
-        storageClassName: {{ .Values.persistence.storageClass }}  # Uses your defined storage class
+        storageClassName: {{ .Values.kafkaUI.persistence.storageClass }}  # Uses your defined storage class
 
 ---
 apiVersion: v1
