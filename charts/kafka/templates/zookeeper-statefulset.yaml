@@ -35,7 +35,7 @@ spec:
         name: zookeeper-pvc
       spec:
         accessModes:
-          - {{ .Values.zookeeper.persistence.accessMode }}
+          - ReadWriteOnce
         resources:
           requests:
             storage: {{ .Values.zookeeper.persistence.size }}
