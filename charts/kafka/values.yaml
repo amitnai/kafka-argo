@@ -29,7 +29,7 @@ kafka:
 
   environment:
     KAFKA_ZOOKEEPER_CONNECT: "zookeeper.kafka.svc.cluster.local:2181"
-
+    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
     # Generate unique broker ID using StatefulSet ordinal index
     #    KAFKA_BROKER_ID: "$(echo ${HOSTNAME##*-})"
     # Advertise listener correctly using StatefulSet hostname
