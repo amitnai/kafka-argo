@@ -33,6 +33,10 @@ spec:
               value: "{{ .Values.kafka.environment.KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR }}"
             - name: KAFKA_LISTENERS
               value: "{{ .Values.kafka.environment.KAFKA_LISTENERS }}"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL
+              value: "PLAINTEXT"  # Ensures Kafka uses plaintext communication
+            - name: KAFKA_LISTENER_NAME_INTERNAL
+              value: "INTERNAL"  # Optional, only needed if using internal listeners
           ports:
             - containerPort: 9092
               name: kafka
