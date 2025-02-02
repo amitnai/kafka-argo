@@ -22,14 +22,28 @@ spec:
           ports:
             - containerPort: 8083
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_HOST_NAME }}"
+            - name: CONNECT_REST_PORT
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_REST_PORT }}"
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR }}"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR }}"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_STATUS_STORAGE_REPLICATION_FACTOR }}"
             - name: CONNECT_BOOTSTRAP_SERVERS
-              value: {{ .Values.kafkaConnect.environment.CONNECT_BOOTSTRAP_SERVERS }}
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_BOOTSTRAP_SERVERS }}"
             - name: CONNECT_REST_ADVERTISED_LISTENER
-              value: {{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_LISTENER }}
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_LISTENER }}"
             - name: CONNECT_KEY_CONVERTER
-              value: {{ .Values.kafkaConnect.environment.CONNECT_KEY_CONVERTER }}
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_KEY_CONVERTER }}"
             - name: CONNECT_VALUE_CONVERTER
-              value: {{ .Values.kafkaConnect.environment.CONNECT_VALUE_CONVERTER }}
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_VALUE_CONVERTER }}"
             - name: CONNECT_INTERNAL_KEY_CONVERTER
               value: {{ .Values.kafkaConnect.environment.CONNECT_INTERNAL_KEY_CONVERTER }}
             - name: CONNECT_INTERNAL_VALUE_CONVERTER
