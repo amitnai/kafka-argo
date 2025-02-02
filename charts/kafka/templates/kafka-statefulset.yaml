@@ -58,7 +58,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka
+  name: kafka-service
   namespace: {{ .Values.namespace }}
 spec:
   type: {{ .Values.kafka.service.type }}  # This ensures external access
