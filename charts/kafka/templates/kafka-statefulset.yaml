@@ -29,7 +29,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-              value: "$(POD_NAME##*-)"
                     #- name: KAFKA_BROKER_ID
                     #value: "$(echo ${POD_NAME##*-})"
                 # - name: KAFKA_ADVERTISED_LISTENERS

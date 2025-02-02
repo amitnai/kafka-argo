@@ -46,7 +46,6 @@ kafka:
     KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
     KAFKA_LISTENER_SECURITY_PROTOCOL: "PLAINTEXT"
     KAFKA_LISTENER_NAME_INTERNAL: "INTERNAL"
-  envFrom:
     - name: POD_NAME
       valueFrom:
         fieldRef:
@@ -55,7 +54,6 @@ kafka:
       valueFrom:
         fieldRef:
           fieldPath: metadata.name  
-      value: "$(POD_NAME##*-)"
             # podAnnotations:
             #kafka.podName: "$(POD_NAME)"
 
