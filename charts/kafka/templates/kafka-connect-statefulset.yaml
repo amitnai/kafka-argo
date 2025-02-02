@@ -52,7 +52,7 @@ spec:
         name: kafka-connect-pvc
       spec:
         accessModes:
-          - {{ .Values.kafkaConnect.persistence.accessMode }}
+          - ReadWriteMany
         resources:
           requests:
             storage: {{ .Values.kafkaConnect.persistence.size }}
