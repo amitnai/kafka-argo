@@ -35,7 +35,7 @@ spec:
               mountPath: /var/lib/schema-registry
   volumeClaimTemplates:
     - metadata:
-        name: schema-registry-pvc
+        name: schema-registry-persistent-storage
       spec:
         accessModes:
           - ReadWriteOnce
