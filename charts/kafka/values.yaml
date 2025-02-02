@@ -32,15 +32,11 @@ kafka:
 
     # Generate unique broker ID using StatefulSet ordinal index
     #    KAFKA_BROKER_ID: "$(echo ${HOSTNAME##*-})"
-
     # Advertise listener correctly using StatefulSet hostname
     KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
     #KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(hostname -f):9092"
     # Enable topic auto-creation
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-
-    # Set offsets topic replication factor
-    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
 
     # Define Kafka listeners
     KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
@@ -50,10 +46,8 @@ kafka:
       #valueFrom:
       # fieldRef:
       #   fieldPath: metadata.name  # This resolves to the pod name (e.g., kafka-0, kafka-1, etc.)
-    - name: KAFKA_BROKER_ID
+      # - name: KAFKA_BROKER_ID
 #     valueFrom:
-#       fieldRef:
-#         fieldPath: metadata.name  
             # podAnnotations:
             #kafka.podName: "$(POD_NAME)"
 
