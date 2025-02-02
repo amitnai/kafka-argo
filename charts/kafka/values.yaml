@@ -123,7 +123,7 @@ kafkaConnect:
     CONNECT_CONFIG_STORAGE_TOPIC: "connect-configs"
     CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
     CONNECT_STATUS_STORAGE_TOPIC: "connect-status"
-    CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect-service.kafka.svc.cluster.local"
+    CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect-$(POD_NAME).kafka.svc.cluster.local"
     CONNECT_REST_PORT: "8083"
     CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "3"
     CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "3"
