@@ -31,11 +31,11 @@ kafka:
     KAFKA_ZOOKEEPER_CONNECT: "zookeeper.kafka.svc.cluster.local:2181"
 
     # Generate unique broker ID using StatefulSet ordinal index
-    # KAFKA_BROKER_ID: "$(STATEFULSET_ORDINAL)"
+    KAFKA_BROKER_ID_COMMAND: "echo ${HOSTNAME##*-}"
 
     # Advertise listener correctly using StatefulSet hostname
-    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
-
+    #KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
+    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(hostname -f):9092"
     # Enable topic auto-creation
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
