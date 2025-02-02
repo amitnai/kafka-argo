@@ -26,7 +26,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name  # This will resolve to the StatefulSet's ordinal index
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "{{ .Values.kafka.environment.KAFKA_ADVERTISED_LISTENERS }}"
+              value: "PLAINTEXT://kafka-$(POD_NAME).kafka.svc.cluster.local:9092"
             - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
               value: "{{ .Values.kafka.environment.KAFKA_AUTO_CREATE_TOPICS_ENABLE }}"
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
