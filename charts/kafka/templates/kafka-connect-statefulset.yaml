@@ -22,10 +22,10 @@ spec:
           ports:
             - containerPort: 8083
           env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
+            # - name: POD_NAME
+            # valueFrom:
+            #   fieldRef:
+            #     fieldPath: metadata.name
             - name: CONNECT_REST_ADVERTISED_HOST_NAME
               value: "{{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_HOST_NAME }}"
             - name: CONNECT_REST_PORT
