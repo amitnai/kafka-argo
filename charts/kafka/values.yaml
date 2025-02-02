@@ -28,11 +28,22 @@ kafka:
       memory: "2Gi"
 
   environment:
-    KAFKA_ZOOKEEPER_CONNECT: "zookeeper-0.zookeeper.kafka.svc.cluster.local:2181,zookeeper-1.zookeeper.kafka.svc.cluster.local:2181,zookeeper-2.zookeeper.kafka.svc.cluster.local:2181"
-    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(HOSTNAME).kafka.kafka.svc.cluster.local:9092"
+    KAFKA_ZOOKEEPER_CONNECT: "zookeeper.kafka.svc.cluster.local:2181"
+
+    # Generate unique broker ID using StatefulSet ordinal index
+    KAFKA_BROKER_ID: "$(KAFKA_BROKER_ID)"
+
+    # Advertise listener correctly using StatefulSet hostname
+    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(KAFKA_BROKER_ID).kafka.kafka.svc.cluster.local:9092"
+
+    # Enable topic auto-creation
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+    # Set offsets topic replication factor
     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
-    KAFKA_LISTENERS: "PLAINTEXT://:9092"
+
+    # Define Kafka listeners
+    KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
 
 # Zookeeper Configuration
 zookeeper:
