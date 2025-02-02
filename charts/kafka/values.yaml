@@ -107,7 +107,7 @@ kafkaConnect:
   persistence:
     enabled: true
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     size: 10Gi
     storageClass: kafka  # Make sure this matches your storage class
 
