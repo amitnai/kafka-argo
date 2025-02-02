@@ -112,7 +112,7 @@ kafkaConnect:
     storageClass: kafka  # Make sure this matches your storage class
 
   environment:
-    CONNECT_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
+    CONNECT_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka-service.kafka.svc.cluster.local:9092"
     CONNECT_REST_ADVERTISED_LISTENER: "http://0.0.0.0:8083"
     CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
     CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
@@ -144,7 +144,7 @@ schemaRegistry:
     storageClass: kafka  # Make sure this matches your storage class
 
   environment:
-    SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
+    SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka-service.kafka.svc.cluster.local:9092"
     SCHEMA_REGISTRY_LISTENER: "http://0.0.0.0:8081"
     SCHEMA_REGISTRY_HOST_NAME: "schema-registry"
     SCHEMA_REGISTRY_KAFKASTORE_TOPIC: "_schemas"
