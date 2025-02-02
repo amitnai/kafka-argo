@@ -26,11 +26,15 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name  # This will resolve to the StatefulSet's ordinal index
             - name: KAFKA_BROKER_ID
-              value: "$(echo ${POD_NAME##*-})"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+                    #- name: KAFKA_BROKER_ID
+                    #value: "$(echo ${POD_NAME##*-})"
                 # - name: KAFKA_ADVERTISED_LISTENERS
                 #value: "PLAINTEXT://$(hostname -f):9092"
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "PLAINTEXT://kafka-$(echo ${POD_NAME##*-}).kafka.svc.cluster.local:9092"
+              value: "PLAINTEXT://$(POD_NAME).kafka.svc.cluster.local:9092"
             - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
               value: "{{ .Values.kafka.environment.KAFKA_AUTO_CREATE_TOPICS_ENABLE }}"
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
