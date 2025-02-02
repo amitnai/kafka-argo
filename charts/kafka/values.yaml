@@ -46,8 +46,7 @@ kafka:
     KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
     KAFKA_LISTENER_SECURITY_PROTOCOL: "PLAINTEXT"
     KAFKA_LISTENER_NAME_INTERNAL: "INTERNAL"
-
-  extraEnvVars:
+  envFrom:
     - name: POD_NAME
       valueFrom:
         fieldRef:
