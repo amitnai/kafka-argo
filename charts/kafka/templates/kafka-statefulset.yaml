@@ -25,10 +25,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name  # This will resolve to the StatefulSet's ordinal index
-            - name: KAFKA_BROKER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.annotations['statefulset.kubernetes.io/pod-ordinal']
+                    # - name: KAFKA_BROKER_ID
+                    #     #valueFrom:
+                    #fieldRef:
+                    # fieldPath: metadata.annotations['statefulset.kubernetes.io/pod-ordinal']
                     #- name: KAFKA_BROKER_ID
                     #value: "$(echo ${POD_NAME##*-})"
                 # - name: KAFKA_ADVERTISED_LISTENERS
