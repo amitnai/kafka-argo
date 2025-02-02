@@ -34,7 +34,7 @@ kafka:
     KAFKA_BROKER_ID: "$(KAFKA_BROKER_ID)"
 
     # Advertise listener correctly using StatefulSet hostname
-    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(KAFKA_BROKER_ID).kafka.kafka.svc.cluster.local:9092"
+    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
 
     # Enable topic auto-creation
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
