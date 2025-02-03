@@ -168,7 +168,7 @@ kafkaUI:
     type: LoadBalancer  # Expose UI externally
     port: 9000
   environment:
-    KAFKA_BROKERCONNECT: "PLAINTEXT://kafka-0.kafka.kafka.svc.cluster.local:9092,kafka-1.kafka.kafka.svc.cluster.local:9092,kafka-2.kafka.kafka.svc.cluster.local:9092"
+    KAFKA_BROKERCONNECT: "PLAINTEXT://kafka-service.kafka.svc.cluster.local:9092"
 
 # Persistent Storage Configuration
   persistence:
@@ -176,4 +176,4 @@ kafkaUI:
     accessModes:
       - ReadWriteOnce
     size: 5Gi
-    storageClass: kafka  # Make sure this matches your storage class
+    storageClass: kafka  # Make sure this matches your storage lass
