@@ -21,7 +21,7 @@ spec:
           env:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "{{ .Values.kafka.environment.KAFKA_ZOOKEEPER_CONNECT }}"
-            - name: POD_NAME
+            - name: POD_IP
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name  # This will resolve to the StatefulSet's ordinal index
