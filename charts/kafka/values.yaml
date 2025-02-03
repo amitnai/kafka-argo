@@ -33,7 +33,7 @@ kafka:
     # Generate unique broker ID using StatefulSet ordinal index
     #    KAFKA_BROKER_ID: "$(echo ${HOSTNAME##*-})"
     # Advertise listener correctly using StatefulSet hostname
-    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(POD_NAME).kafka-service.kafka.svc.cluster.local:9092"
+    KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(POD_IP):9092"
     #KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://$(hostname -f):9092"
     # Enable topic auto-creation
     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
