@@ -36,7 +36,7 @@ spec:
             - name: KAFKA_ADVERTISED_LISTENERS
               value: "PLAINTEXT://kafka-service.kafka.svc.cluster.local:9092"
             - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
-              value: "{{ .Values.kafka.environment.KAFKA_AUTO_CREATE_TOPICS_ENABLE }}"
+              value: "true"
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "{{ .Values.kafka.environment.KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR }}"
             - name: KAFKA_LISTENERS
