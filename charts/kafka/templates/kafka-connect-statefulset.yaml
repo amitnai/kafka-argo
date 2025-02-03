@@ -26,6 +26,8 @@ spec:
             # valueFrom:
             #   fieldRef:
             #     fieldPath: metadata.name
+            - name: CONNECT_AUTO_CREATE_TOPICS_ENABLE
+              value: "{{ .Values.kafkaConnect.environment.CONNECT_AUTO_CREATE_TOPICS_ENABLE }}"
             - name: CONNECT_REST_ADVERTISED_HOST_NAME
               value: "{{ .Values.kafkaConnect.environment.CONNECT_REST_ADVERTISED_HOST_NAME }}"
             - name: CONNECT_REST_PORT
