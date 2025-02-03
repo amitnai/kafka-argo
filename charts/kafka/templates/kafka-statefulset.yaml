@@ -24,7 +24,7 @@ spec:
             - name: POD_IP
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name  # This will resolve to the StatefulSet's ordinal index
+                  fieldPath: status.podIP  # This will resolve to the StatefulSet's ordinal index
                     # - name: KAFKA_BROKER_ID
                     #     #valueFrom:
                     #fieldRef:
