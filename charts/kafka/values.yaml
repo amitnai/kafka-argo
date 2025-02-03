@@ -9,7 +9,7 @@ kafka:
     pullPolicy: IfNotPresent
 
   service:
-    type: ClusterIP  # Expose Kafka brokers externally
+    type: LoadBalancer  # Expose Kafka brokers externally
     port: 9092
 
   persistence:
